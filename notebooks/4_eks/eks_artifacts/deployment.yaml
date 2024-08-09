@@ -1,39 +1,53 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: huggingface-deployment
+  name: lorax-deployment
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: huggingface
+      app: lorax
   template:
     metadata:
       labels:
-        app: huggingface
+        app: lorax
     spec:
       containers:
-      - name: huggingface-container
-        image: vllm/vllm-openai:latest
-        args: ["--model", "mistralai/Mistral-7B-v0.1"]
+      - name: lorax
+        image: ghcr.io/predibase/lorax:main
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8000
+        volumeMounts:
+        - name: data-volume
+          mountPath: /data
         env:
+        - name: NVIDIA_VISIBLE_DEVICES
+          value: "all"
         - name: HUGGING_FACE_HUB_TOKEN
           valueFrom:
             secretKeyRef:
-              name: huggingface-secret
-              key: HUGGING_FACE_HUB_TOKEN
-        volumeMounts:
-        - name: cache-volume
-          mountPath: /root/.cache/huggingface
-        securityContext:
-          ipcMode: "Host"
+              name: hf-token-secret
+              key: HF_TOKEN
+        - name: MODEL_ID
+          value: "mistralai/Mistral-7B-Instruct-v0.1"
+        - name: MAX_BATCH_TOTAL_TOKENS
+          value: "4096"
+        - name: MAX_CONCURRENT_REQUESTS
+          value: "256"
+        - name: PORT
+          value: "8000"
         resources:
+          requests:
+            memory: "2G"
+            cpu: "2"
+            nvidia.com/gpu: "1"
           limits:
-            nvidia.com/gpu: 1
+            memory: "4G"
+            cpu: "3"
+            nvidia.com/gpu: "1"
       volumes:
-      - name: cache-volume
+      - name: data-volume
         hostPath:
-          path: /home/$(USER)/.cache/huggingface
-          type: Directory
+          path: /path/to/your/data
+      restartPolicy: Always

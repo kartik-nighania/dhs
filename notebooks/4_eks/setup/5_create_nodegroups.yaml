@@ -1,0 +1,45 @@
+# eksctl create nodegroup -f <name>
+# eksctl delete nodegroup -f <name> --approve
+# eksctl get nodegroups --cluster prod-eks-europe
+# eksctl delete nodegroup <name> --cluster=prod-eks-europe
+# eksctl scale nodegroup g5-gpu-ng --cluster=workshop-k8s-cluster --nodes-max=2 --region ap-south-1 --nodes=0 --nodes-min=0 
+
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: workshop-k8s-cluster
+  region: ap-south-1
+
+vpc:
+  cidr: 10.0.0.0/16
+  nat:
+    gateway: HighlyAvailable
+
+availabilityZones: ["ap-south-1a", "ap-south-1b", "ap-south-1c"]
+
+managedNodeGroups:
+  - name: g5-gpu-ng
+    instanceTypes: ["g5.2xlarge"]
+    minSize: 0
+    maxSize: 5
+    desiredCapacity: 0
+    volumeSize: 70
+    volumeType: gp3
+    volumeEncrypted: true
+    privateNetworking: true
+    tags:
+      k8s.io/cluster-autoscaler/node-template/label/nvidia.com/gpu: true
+      k8s.io/cluster-autoscaler/node-template/resources/nvidia.com/gpu: 1
+  - name: g5-gpu-1x-ng
+    instanceTypes: ["g5.xlarge"]
+    minSize: 1
+    maxSize: 5
+    desiredCapacity: 2
+    volumeSize: 70
+    volumeType: gp3
+    volumeEncrypted: true
+    privateNetworking: true
+    tags:
+      k8s.io/cluster-autoscaler/node-template/label/nvidia.com/gpu: true
+      k8s.io/cluster-autoscaler/node-template/resources/nvidia.com/gpu: 1

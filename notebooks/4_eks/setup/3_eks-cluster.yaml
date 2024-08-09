@@ -1,17 +1,17 @@
 apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
 availabilityZones:
-  - ${AWS_REGION}a
+  - ap-south-1a
+  - ap-south-1b
+  - ap-south-1c
 metadata:
-  name: ${EKS_CLUSTER_NAME}
-  region: ${AWS_REGION}
-  version: "1.30"
-  tags:
-    env: ${EKS_CLUSTER_NAME}
+  name: workshop-k8s-cluster
+  region: ap-south-1
+  version: "1.29"
 iam:
   withOIDC: true
 vpc:
-  cidr: # TODO - Update the CIDR block
+  cidr: 10.42.0.0/16
   clusterEndpoints:
     privateAccess: true
     publicAccess: true
@@ -22,12 +22,11 @@ addons:
     resolveConflicts: overwrite
 managedNodeGroups:
   - name: default
-    desiredCapacity: 3
-    minSize: 3
-    maxSize: 6
-    instanceType: m5.large
+    desiredCapacity: 2
+    minSize: 2
+    maxSize: 4
+    instanceType: g5.2xlarge
     privateNetworking: true
-    releaseVersion: "1.30.0-20240625"
     updateConfig:
       maxUnavailablePercentage: 50
     labels:
