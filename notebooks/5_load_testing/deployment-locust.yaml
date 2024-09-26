@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: locust
-        image: 466407698387.dkr.ecr.ap-south-1.amazonaws.com/locust-load-testing:latest
+        image: <image URI>
         imagePullPolicy: Always
         ports:
         - containerPort: 8089

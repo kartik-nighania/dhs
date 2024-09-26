@@ -7,6 +7,6 @@ spec:
     app: locust
   ports:
   - protocol: TCP
-    port: 8089
+    port: 80
     targetPort: 8089
   type: ClusterIP

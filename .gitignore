@@ -171,3 +171,7 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 workshop_testing/user_credentials.csv
+notebooks/4_eks/setup/iam-policy.json
+notebooks/4_eks/setup/v2_7_2_full.yaml
+notebooks/4_eks/setup/v2_7_2_ingclass.yaml
+notebooks/5_load_testing/locust.py

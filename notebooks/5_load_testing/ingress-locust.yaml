@@ -18,4 +18,4 @@ spec:
               service:
                 name: locust-service
                 port:
-                  number: 8089
+                  number: 80
