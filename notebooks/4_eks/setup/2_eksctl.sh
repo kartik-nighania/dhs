@@ -7,6 +7,9 @@ curl -sLO "https://github.com/eksctl-io/eksctl/releases/latest/download/eksctl_$
 # (Optional) Verify checksum
 curl -sL "https://github.com/eksctl-io/eksctl/releases/latest/download/eksctl_checksums.txt" | grep $PLATFORM | sha256sum --check
 
-tar -xzf eksctl_$PLATFORM.tar.gz -C /tmp && rm eksctl_$PLATFORM.tar.gz
+tar -xzf eksctl_$PLATFORM.tar.gz -C . && rm eksctl_$PLATFORM.tar.gz
+chmod +x ./eksctl
 
-sudo mv /tmp/eksctl /usr/local/bin
+mkdir -p $HOME/bin && cp ./eksctl $HOME/bin/eksctl && export PATH=$HOME/bin:$PATH
+echo 'export PATH=$HOME/bin:$PATH' >> ~/.bashrc
+echo 'export PATH=$HOME/bin:$PATH' >> ~/.zshrc
