@@ -7,6 +7,7 @@ workshop/user_credentials.csv
 workshop/load_testing/data
 /notebooks/4_eks/setup/kubectl
 /notebooks/4_eks/setup/eksctl
+/notebooks/3_sagemaker/1_training_script_mode/tmp/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
