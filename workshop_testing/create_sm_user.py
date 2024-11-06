@@ -22,19 +22,15 @@ def create_user_profile(domain_id, user_profile_name, execution_role_arn, aws_ac
     print(f"Created user profile: {user_profile_name}")
 
 # Example usage
-# domain_id = 'd-fhbmxy36y0dt'
-# execution_role_arn = 'arn:aws:iam::009676737623:role/service-role/AmazonSageMaker-ExecutionRole-20240809T183503'
-
-# domain_id = 'd-uxgguf8z6vcn'
-# execution_role_arn = 'arn:aws:iam::009676737623:role/service-role/AmazonSageMaker-ExecutionRole-20240809T183675'
-
-domain_id = "d-sev3miuv8s3c"
-execution_role_arn = "arn:aws:iam::009676737623:role/service-role/AmazonSageMaker-ExecutionRole-20240809T183693"
+domain_id = "d-fqcyxrshr7ie"
+execution_role_arn = "arn:aws:iam::050752632341:role/service-role/AmazonSageMaker-ExecutionRole-20241106T114968"
 
 aws_access_key_id = os.getenv('AWS_ACCESS_KEY_ID')
 aws_secret_access_key = os.getenv('AWS_SECRET_ACCESS_KEY')
 region_name = 'ap-south-1'
 
-for i in range(41, 61):
+for i in range(2, 34):
     user_profile_name = f'user-{i}'
     create_user_profile(domain_id, user_profile_name, execution_role_arn, aws_access_key_id, aws_secret_access_key, region_name)
+
+print("Done creating users")
